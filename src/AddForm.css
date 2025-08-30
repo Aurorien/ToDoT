@@ -1,7 +1,6 @@
 .add-form form {
   display: flex;
   flex-direction: column;
-  width: 300px;
   gap: 0.5rem;
 }
 

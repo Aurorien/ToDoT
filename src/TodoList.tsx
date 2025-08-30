@@ -26,22 +26,24 @@ function TodoList() {
 
   return (
     <>
+      <div className="todo-list-ctn">
+        {isAddFormActive && (
+          <AddForm onAdd={handleOnAdd} onCancel={handleOnCancel} />
+        )}
+        <section className="todo-list">
+          <ol>
+            {todos.list.map((todo) => (
+              <Todo
+                key={todo.id}
+                todo={todo}
+                onMove={todos.actions.move}
+                onRemove={todos.actions.remove}
+              />
+            ))}
+          </ol>
+        </section>
+      </div>
       <AddButton onClick={() => setIsAddFormActive(true)} />
-      {isAddFormActive && (
-        <AddForm onAdd={handleOnAdd} onCancel={handleOnCancel} />
-      )}
-      <section>
-        <ol className="todo-list">
-          {todos.list.map((todo) => (
-            <Todo
-              key={todo.id}
-              todo={todo}
-              onMove={todos.actions.move}
-              onRemove={todos.actions.remove}
-            />
-          ))}
-        </ol>
-      </section>
     </>
   );
 }
