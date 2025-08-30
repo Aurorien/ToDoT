@@ -6,25 +6,33 @@ import "./AddForm.css";
 
 interface AddFormProps {
   onAdd: (newTodo: ITodo) => void;
+  onCancel: () => void;
 }
 
-function AddForm({ onAdd }: AddFormProps) {
-  const [newTodo, setNewTodo] = useState<ITodo>({
-    id: uuidv4(),
+function AddForm({ onAdd, onCancel }: AddFormProps) {
+  const [todoData, setTodoData] = useState<Partial<ITodo>>({
     content: "",
     author: "",
-    timestamp: getTimestamp(),
-    isCompleted: false,
   });
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!todoData.content || !todoData.author) return;
+
+    const newTodo: ITodo = {
+      id: uuidv4(),
+      content: todoData.content,
+      author: todoData.author,
+      timestamp: getTimestamp(),
+      isCompleted: false,
+    };
     onAdd(newTodo);
   };
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setNewTodo((prev) => ({
+    setTodoData((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -39,7 +47,7 @@ function AddForm({ onAdd }: AddFormProps) {
             id="todo-content"
             type="text"
             name="content"
-            value={newTodo.content}
+            value={todoData.content}
             onChange={handleOnChange}
             required
           />
@@ -51,13 +59,18 @@ function AddForm({ onAdd }: AddFormProps) {
             id="todo-author"
             type="text"
             name="author"
-            value={newTodo.author}
+            value={todoData.author}
             onChange={handleOnChange}
             required
           />
         </label>
 
-        <button type="submit">Save</button>
+        <div className="form-buttons-ctn">
+          <button type="button" onClick={onCancel}>
+            Cancel
+          </button>
+          <button type="submit">Save</button>
+        </div>
       </form>
     </section>
   );

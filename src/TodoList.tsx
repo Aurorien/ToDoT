@@ -20,10 +20,16 @@ function TodoList() {
     setIsAddFormActive(false);
   };
 
+  const handleOnCancel = () => {
+    setIsAddFormActive(false);
+  };
+
   return (
     <>
       <AddButton onClick={() => setIsAddFormActive(true)} />
-      {isAddFormActive && <AddForm onAdd={handleOnAdd} />}
+      {isAddFormActive && (
+        <AddForm onAdd={handleOnAdd} onCancel={handleOnCancel} />
+      )}
       <section>
         <ol className="todo-list">
           {todos.list.map((todo) => (
